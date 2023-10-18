@@ -32,4 +32,40 @@
             </div>
         </div>
     </div>
+    <!--  -->
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">{{ __('Deposits') }}</div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Account Type</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($deposits as $deposit)
+                                    <tr>
+                                        <td>{{ $deposit->id }}</td>
+                                        <td>{{ $deposit->user_id }}</td>
+                                        <td>{{ $deposit->transaction_type }}</td>
+                                        <td>{{ $deposit->amount }}</td>
+                                        <td>{{ $deposit->fee }}</td>
+                                        <td>{{ $deposit->date }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

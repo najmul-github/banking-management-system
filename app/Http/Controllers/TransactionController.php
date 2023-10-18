@@ -33,9 +33,7 @@ class TransactionController extends Controller
     public function showDeposits(Request $request)
     {
         $user = auth()->user();
-        $deposits = Transaction::where('user_id', $user->id)
-            ->where('transaction_type', 'deposit')
-            ->get();
+        $deposits = $this->transaction->showDeposits($user->id);
 
         return view('transactions.deposit', compact('deposits'));
     }
@@ -50,27 +48,16 @@ class TransactionController extends Controller
         $user = auth()->user();
         $amount = $request->input('amount');
 
-        // Create a deposit transaction
-        Transaction::create([
-            'user_id' => $user->id,
-            'transaction_type' => 'deposit',
-            'amount' => $amount,
-            'fee' => 0, // No fee for deposits
-        ]);
+        $user = $this->transaction->deposit($user, $amount);
 
-        // Update the user's balance
-        $user->balance += $amount;
-        $user->save();
-
-        return redirect('/transactions')->with('success', 'Deposit successful');
+        return redirect('/deposits')->with('success', 'Deposit successful');
     }
 
     public function showWithdrawals(Request $request)
     {
         $user = auth()->user();
-        $withdrawals = Transaction::where('user_id', $user->id)
-            ->where('transaction_type', 'withdrawal')
-            ->get();
+        
+        $withdrawals = $this->transaction->showWithdrawals($user->id);
 
         return view('transactions.withdrawal', compact('withdrawals'));
     }
@@ -83,25 +70,10 @@ class TransactionController extends Controller
 
         $user = auth()->user();
         $amount = $request->input('amount');
+        
+        $user = $this->transaction->withdraw($user, $amount);
 
-        // Calculate the withdrawal fee based on the account type
-        $accountType = $user->account_type;
-        $withdrawalFeeRate = ($accountType === 'Business') ? 0.00025 : 0.00015;
-        $fee = $amount * $withdrawalFeeRate;
-
-        // Create a withdrawal transaction
-        Transaction::create([
-            'user_id' => $user->id,
-            'transaction_type' => 'withdrawal',
-            'amount' => $amount,
-            'fee' => $fee,
-        ]);
-
-        // Update the user's balance
-        $user->balance -= ($amount + $fee);
-        $user->save();
-
-        return redirect('/transactions')->with('success', 'Withdrawal successful');
+        return redirect('/withdrawals')->with('success', 'Withdrawal successful');
     }
 }
 
