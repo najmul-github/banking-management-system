@@ -32,7 +32,7 @@ Route::post('/register', [RegisterController::class, 'create'])->name('register'
 Route::post('/users', [UserController::class, 'create'])->name('user.store');
 // Route::post('/login', [UserController::class, 'login'])->name('login');
 
-// Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [TransactionController::class, 'index'])->name('dashboard.index');
     Route::get('/profile', [UserController::class, 'index'])->name('user.index');
     Route::get('/transactions', [TransactionController::class, 'showAllTransactions'])->name('transaction.index');
@@ -40,6 +40,6 @@ Route::post('/users', [UserController::class, 'create'])->name('user.store');
     Route::post('/deposit', [TransactionController::class, 'deposit'])->name('deposit.store');
     Route::get('/withdrawals', [TransactionController::class, 'showWithdrawals'])->name('withdraw.index');
     Route::post('/withdrawal', [TransactionController::class, 'withdraw'])->name('withdraw.store');
-// });
+});
 
 
