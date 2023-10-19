@@ -26,7 +26,7 @@ Route::post('/login', [LoginController::class, 'login'])->name('post-login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'create'])->name('register');
+Route::post('/register', [RegisterController::class, 'create'])->name('post-register');
 
 
 Route::post('/users', [UserController::class, 'create'])->name('user.store');

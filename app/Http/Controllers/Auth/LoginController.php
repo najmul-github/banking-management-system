@@ -13,17 +13,7 @@ class LoginController extends Controller
     }
     
     public function login(Request $request)
-    {
-        // $credentials = $request->only('email', 'password');
-    
-        // if (Auth::attempt($credentials)) {
-        //     // Authentication was successful
-        //     return redirect('/dashboard');
-        // }
-    
-        // // Authentication failed
-        // return back()->withErrors(['email' => 'Invalid credentials']);    
-        
+    {     
         $credentials = $request->only('email', 'password');
 
         if (\Illuminate\Support\Facades\Auth::attempt($credentials)) {

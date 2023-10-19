@@ -26,24 +26,28 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    protected function validator(array $data)
+    protected function validator(Request $request)
     {
-        return Validator::make($data, [
+        return Validator::make($request, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'account_type' => 'required|in:Individual,Business',
+            'balance' => ['required'],
         ]);
     }
 
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'account_type' => 'Individual', // Set the default account type
-            'balance' => 0.00, // Set the default balance
+        $user = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'account_type' => $request['account_type'] ?? 'Individual', // Set the default account type
+            'balance' => $request['balance'] ?? 0.00, // Set the default balance
         ]);
+
+        return redirect('/dashboard')->with('success', 'User created successfully');
     }
 }
 

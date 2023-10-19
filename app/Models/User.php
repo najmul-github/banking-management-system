@@ -23,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'account_type',
+        'balance'
     ];
 
     /**
@@ -51,7 +53,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $appends = [
-        'profile_photo_url',
-    ];
+    // protected $appends = [
+    //     'profile_photo_url',
+    // ];
 }
